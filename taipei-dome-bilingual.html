@@ -132,12 +132,12 @@
 <body class="antialiased">
 
     <header class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center gap-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center gap-4">
             <div>
-                <h1 class="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-2">
                     🏟️ <span class="t" data-en="Taipei Dome Events 2026–2027" data-zh="臺北大巨蛋重大賽事與活動排程">Taipei Dome Events 2026–2027</span>
                 </h1>
-                <p class="text-xs text-slate-500 mt-0.5 t" data-en="Schedule Analysis Report · Apr 2026 – Dec 2027" data-zh="2026年4月 至 2027年12月 檔期分析報告">Schedule Analysis Report · Apr 2026 – Dec 2027</p>
+                <p class="text-sm text-slate-500 mt-1 t" data-en="Schedule Analysis Report · Apr 2026 – Dec 2027" data-zh="2026年4月 至 2027年12月 檔期分析報告">Schedule Analysis Report · Apr 2026 – Dec 2027</p>
             </div>
             <div class="flex items-center gap-3 flex-shrink-0">
                 <span class="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full font-medium">
@@ -154,8 +154,8 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
 
         <!-- Intro -->
-        <div class="mb-7 lang-fade">
-            <p class="text-slate-600 leading-relaxed max-w-4xl text-sm t"
+        <div class="mb-8 lang-fade">
+            <p class="text-slate-600 leading-relaxed max-w-4xl t"
                data-en="This interactive dashboard covers major events and activities scheduled at Taipei Dome from April 2026 through end of 2027. Use the <b>filters</b> to narrow by year or event type, and <b>click any item</b> on the timeline to view detailed information and attendance forecasts."
                data-zh="本互動式報告彙整了臺北大巨蛋（Taipei Dome）自 2026 年 4 月起至 2027 年底的預定與預估重大賽事及活動檔期。請透過下方的<b>篩選器</b>切換年份與活動類型，並點擊<b>時間軸</b>上的個別事件以查看詳細資訊與預估人潮趨勢。">
                This interactive dashboard covers major events and activities scheduled at Taipei Dome from April 2026 through end of 2027. Use the <b>filters</b> to narrow by year or event type, and <b>click any item</b> on the timeline to view detailed information and attendance forecasts.
@@ -163,13 +163,13 @@
         </div>
 
         <!-- Filters + KPIs -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mb-7">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-8">
 
             <!-- Controls -->
             <div class="lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-4">
-                <h2 class="text-base font-bold text-slate-800 border-b border-slate-100 pb-2 t" data-en="⚙️ Filters" data-zh="⚙️ 篩選條件">⚙️ Filters</h2>
+                <h2 class="text-lg font-bold text-slate-800 border-b border-slate-100 pb-2 t" data-en="⚙️ Filters" data-zh="⚙️ 篩選條件">⚙️ Filters</h2>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide t" data-en="Year" data-zh="年份">Year</label>
+                    <label class="block text-sm font-medium text-slate-600 mb-1 t" data-en="Year" data-zh="年份">Year</label>
                     <select id="yearFilter" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-2.5 outline-none">
                         <option value="all" class="t" data-en="All (2026–2027)" data-zh="全部 (2026-2027)">All (2026–2027)</option>
                         <option value="2026">2026</option>
@@ -177,7 +177,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide t" data-en="Event Type" data-zh="活動類型">Event Type</label>
+                    <label class="block text-sm font-medium text-slate-600 mb-1 t" data-en="Event Type" data-zh="活動類型">Event Type</label>
                     <div class="flex flex-wrap gap-2" id="typeFilterContainer">
                         <button data-type="all" class="filter-btn active t" data-en="All" data-zh="全部">All</button>
                         <button data-type="Sports" class="filter-btn t" data-en="⚾ Sports" data-zh="⚾ 體育賽事">⚾ Sports</button>
@@ -190,17 +190,17 @@
             <!-- KPIs -->
             <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="kpi-card flex flex-col justify-center">
-                    <span class="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide t" data-en="Total Events" data-zh="總計活動場次">Total Events</span>
+                    <span class="text-sm font-medium text-slate-500 mb-1 t" data-en="Total Events" data-zh="總計活動場次">Total Events</span>
                     <span class="text-3xl font-bold text-slate-900" id="kpiTotalEvents">–</span>
-                    <span class="text-xs text-sky-600 mt-2 bg-sky-50 px-2 py-1 rounded-full w-fit t" data-en="Matching filters" data-zh="符合當前篩選">Matching filters</span>
+                    <span class="text-xs text-sky-600 mt-2 bg-sky-50 px-2 py-1 rounded w-fit t" data-en="Matching filters" data-zh="符合當前篩選">Matching filters</span>
                 </div>
                 <div class="kpi-card flex flex-col justify-center">
-                    <span class="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide t" data-en="Est. Total Attendance" data-zh="預估總動員人數">Est. Total Attendance</span>
+                    <span class="text-sm font-medium text-slate-500 mb-1 t" data-en="Est. Total Attendance" data-zh="預估總動員人數">Est. Total Attendance</span>
                     <span class="text-3xl font-bold text-slate-900" id="kpiTotalAttendance">–</span>
                     <span class="text-xs text-slate-400 mt-2 t" data-en="Estimated figure" data-zh="人次 (估算值)">Estimated figure</span>
                 </div>
                 <div class="kpi-card flex flex-col justify-center">
-                    <span class="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide t" data-en="Top Event Category" data-zh="主要活動類型">Top Event Category</span>
+                    <span class="text-sm font-medium text-slate-500 mb-1 t" data-en="Top Event Category" data-zh="主要活動類型">Top Event Category</span>
                     <span class="text-2xl font-bold text-slate-900" id="kpiTopType">–</span>
                     <span class="text-xs text-slate-400 mt-2 t" data-en="By event count" data-zh="依據場次佔比">By event count</span>
                 </div>
@@ -213,7 +213,7 @@
             <!-- Timeline -->
             <div class="lg:col-span-5 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" style="max-height:820px;">
                 <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
-                    <h2 class="text-base font-bold text-slate-800 t" data-en="📅 Event Timeline" data-zh="📅 詳細檔期時間軸">📅 Event Timeline</h2>
+                    <h2 class="text-lg font-bold text-slate-800 t" data-en="📅 Event Timeline" data-zh="📅 詳細檔期時間軸">📅 Event Timeline</h2>
                     <span class="text-xs text-slate-400 t" data-en="Click to view details" data-zh="點擊項目查看詳情">Click to view details</span>
                 </div>
                 <div class="overflow-y-auto timeline-scroll p-2 flex-grow lang-fade" id="timelineContainer"></div>
@@ -234,7 +234,7 @@
                                 <span id="detailBadge" class="px-3 py-1 text-xs font-bold rounded-full"></span>
                                 <span id="detailStatus" class="text-xs font-semibold px-3 py-1 bg-slate-100 text-slate-600 rounded-full"></span>
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-5" id="detailTitle"></h3>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4" id="detailTitle"></h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
                                 <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
                                     <span class="text-lg">📅</span>
@@ -268,7 +268,7 @@
                 <!-- Chart -->
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col">
                     <div class="mb-4">
-                        <h2 class="text-base font-bold text-slate-800 t" data-en="📊 Monthly Attendance Forecast" data-zh="📊 預估動員人數趨勢 (按月)">📊 Monthly Attendance Forecast</h2>
+                        <h2 class="text-lg font-bold text-slate-800 t" data-en="📊 Monthly Attendance Forecast" data-zh="📊 預估動員人數趨勢 (按月)">📊 Monthly Attendance Forecast</h2>
                         <p class="text-xs text-slate-500 mt-1 t"
                            data-en="Expected visitor volume per month under current filters — useful for evaluating traffic, logistics, and commercial opportunity."
                            data-zh="呈現當前篩選條件下，每個月的預期人潮流量，協助評估周邊交通與商機。">
@@ -284,8 +284,8 @@
         </div>
     </main>
 
-    <footer class="bg-slate-900 text-slate-400 text-center py-6 mt-10">
-        <p class="text-xs t"
+    <footer class="bg-slate-800 text-slate-400 text-center py-6 mt-8">
+        <p class="text-sm t"
            data-en="© 2026 Taipei Dome Event Dashboard · Data represents estimated and confirmed schedules, not official final announcements."
            data-zh="© 2026 臺北大巨蛋資料洞察儀表板 | 本資料為依據歷年慣例與公開資訊之預估排程，非官方最終公告。">
            © 2026 Taipei Dome Event Dashboard · Data represents estimated and confirmed schedules, not official final announcements.
