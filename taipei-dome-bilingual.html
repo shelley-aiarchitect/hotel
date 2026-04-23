@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taipei Dome Events 2026–2027 | 臺北大巨蛋賽事活動</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- GA4 --><script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
+    <style>
+        :root {
+            --font-en: 'DM Sans', sans-serif;
+            --font-zh: 'Noto Sans TC', sans-serif;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent: #0ea5e9;
+            --accent-light: #e0f2fe;
+            --sports-bg: #e0f2fe; --sports-text: #0284c7;
+            --concert-bg: #f3e8ff; --concert-text: #7e22ce;
+            --exhibition-bg: #ffedd5; --exhibition-text: #c2410c;
+        }
+
+        body {
+            font-family: var(--font-en);
+            background-color: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        body.lang-zh { font-family: var(--font-zh); }
+
+        /* Language toggle */
+        .lang-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+            letter-spacing: 0.02em;
+        }
+        .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .lang-indicator {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* Timeline */
+        .timeline-scroll::-webkit-scrollbar { width: 5px; }
+        .timeline-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .timeline-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .timeline-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .timeline-item {
+            transition: all 0.18s ease;
+            border-left: 3px solid transparent;
+        }
+        .timeline-item:hover { background-color: #f8fafc; }
+        .timeline-item.active {
+            border-left-color: var(--accent);
+            background-color: var(--accent-light);
+        }
+
+        /* Chart */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+        @media (min-width: 768px) { .chart-container { height: 340px; } }
+
+        /* Filter buttons */
+        .filter-btn {
+            padding: 5px 14px;
+            font-size: 13px;
+            border-radius: 999px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            border: 1.5px solid transparent;
+        }
+        .filter-btn.active {
+            background: var(--text-primary);
+            color: #fff;
+            border-color: var(--text-primary);
+        }
+        .filter-btn:not(.active) {
+            background: #f1f5f9;
+            color: var(--text-secondary);
+        }
+        .filter-btn:not(.active):hover { background: #e2e8f0; }
+
+        /* KPI cards */
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px 24px;
+        }
+
+        /* Badge */
+        .badge-sports { background: var(--sports-bg); color: var(--sports-text); }
+        .badge-concert { background: var(--concert-bg); color: var(--concert-text); }
+        .badge-exhibition { background: var(--exhibition-bg); color: var(--exhibition-text); }
+
+        /* Fade-in on lang switch */
+        .lang-fade { transition: opacity 0.15s ease; }
+        body.switching .lang-fade { opacity: 0; }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px !important;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center gap-4">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-2">
+                    🏟️ <span class="t" data-en="Taipei Dome Events 2026–2027" data-zh="臺北大巨蛋重大賽事與活動排程">Taipei Dome Events 2026–2027</span>
+                </h1>
+                <p class="text-xs text-slate-500 mt-0.5 t" data-en="Schedule Analysis Report · Apr 2026 – Dec 2027" data-zh="2026年4月 至 2027年12月 檔期分析報告">Schedule Analysis Report · Apr 2026 – Dec 2027</p>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                <span class="hidden sm:flex items-center gap-1.5 text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full font-medium">
+                    ℹ️ <span class="t" data-en="Estimated & Scheduled" data-zh="預估與排定檔期">Estimated & Scheduled</span>
+                </span>
+                <button class="lang-btn" id="langToggle" onclick="toggleLang()">
+                    <span class="lang-indicator"></span>
+                    <span id="langLabel">中文</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Intro -->
+        <div class="mb-7 lang-fade">
+            <p class="text-slate-600 leading-relaxed max-w-4xl text-sm t"
+               data-en="This interactive dashboard covers major events and activities scheduled at Taipei Dome from April 2026 through end of 2027. Use the <b>filters</b> to narrow by year or event type, and <b>click any item</b> on the timeline to view detailed information and attendance forecasts."
+               data-zh="本互動式報告彙整了臺北大巨蛋（Taipei Dome）自 2026 年 4 月起至 2027 年底的預定與預估重大賽事及活動檔期。請透過下方的<b>篩選器</b>切換年份與活動類型，並點擊<b>時間軸</b>上的個別事件以查看詳細資訊與預估人潮趨勢。">
+               This interactive dashboard covers major events and activities scheduled at Taipei Dome from April 2026 through end of 2027. Use the <b>filters</b> to narrow by year or event type, and <b>click any item</b> on the timeline to view detailed information and attendance forecasts.
+            </p>
+        </div>
+
+        <!-- Filters + KPIs -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mb-7">
+
+            <!-- Controls -->
+            <div class="lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col gap-4">
+                <h2 class="text-base font-bold text-slate-800 border-b border-slate-100 pb-2 t" data-en="⚙️ Filters" data-zh="⚙️ 篩選條件">⚙️ Filters</h2>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide t" data-en="Year" data-zh="年份">Year</label>
+                    <select id="yearFilter" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block p-2.5 outline-none">
+                        <option value="all" class="t" data-en="All (2026–2027)" data-zh="全部 (2026-2027)">All (2026–2027)</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide t" data-en="Event Type" data-zh="活動類型">Event Type</label>
+                    <div class="flex flex-wrap gap-2" id="typeFilterContainer">
+                        <button data-type="all" class="filter-btn active t" data-en="All" data-zh="全部">All</button>
+                        <button data-type="Sports" class="filter-btn t" data-en="⚾ Sports" data-zh="⚾ 體育賽事">⚾ Sports</button>
+                        <button data-type="Concert" class="filter-btn t" data-en="🎵 Concert" data-zh="🎵 演唱會">🎵 Concert</button>
+                        <button data-type="Exhibition" class="filter-btn t" data-en="🎪 Exhibition" data-zh="🎪 展覽活動">🎪 Exhibition</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="kpi-card flex flex-col justify-center">
+                    <span class="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide t" data-en="Total Events" data-zh="總計活動場次">Total Events</span>
+                    <span class="text-3xl font-bold text-slate-900" id="kpiTotalEvents">–</span>
+                    <span class="text-xs text-sky-600 mt-2 bg-sky-50 px-2 py-1 rounded-full w-fit t" data-en="Matching filters" data-zh="符合當前篩選">Matching filters</span>
+                </div>
+                <div class="kpi-card flex flex-col justify-center">
+                    <span class="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide t" data-en="Est. Total Attendance" data-zh="預估總動員人數">Est. Total Attendance</span>
+                    <span class="text-3xl font-bold text-slate-900" id="kpiTotalAttendance">–</span>
+                    <span class="text-xs text-slate-400 mt-2 t" data-en="Estimated figure" data-zh="人次 (估算值)">Estimated figure</span>
+                </div>
+                <div class="kpi-card flex flex-col justify-center">
+                    <span class="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wide t" data-en="Top Event Category" data-zh="主要活動類型">Top Event Category</span>
+                    <span class="text-2xl font-bold text-slate-900" id="kpiTopType">–</span>
+                    <span class="text-xs text-slate-400 mt-2 t" data-en="By event count" data-zh="依據場次佔比">By event count</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Timeline -->
+            <div class="lg:col-span-5 flex flex-col bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" style="max-height:820px;">
+                <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                    <h2 class="text-base font-bold text-slate-800 t" data-en="📅 Event Timeline" data-zh="📅 詳細檔期時間軸">📅 Event Timeline</h2>
+                    <span class="text-xs text-slate-400 t" data-en="Click to view details" data-zh="點擊項目查看詳情">Click to view details</span>
+                </div>
+                <div class="overflow-y-auto timeline-scroll p-2 flex-grow lang-fade" id="timelineContainer"></div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="lg:col-span-7 flex flex-col gap-5">
+
+                <!-- Detail Panel -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lang-fade" id="detailPanel">
+                    <div class="text-center py-12 text-slate-400" id="emptyDetail">
+                        <span class="text-4xl mb-3 block">👈</span>
+                        <p class="text-sm t" data-en="Select an event from the timeline to see details" data-zh="請從左側時間軸選擇一項活動以查看詳細資訊">Select an event from the timeline to see details</p>
+                    </div>
+                    <div id="activeDetail" class="hidden flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span id="detailBadge" class="px-3 py-1 text-xs font-bold rounded-full"></span>
+                                <span id="detailStatus" class="text-xs font-semibold px-3 py-1 bg-slate-100 text-slate-600 rounded-full"></span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-5" id="detailTitle"></h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                                    <span class="text-lg">📅</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-medium t" data-en="Date(s)" data-zh="確切日期">Date(s)</p>
+                                        <p class="text-sm font-semibold text-slate-800 mt-0.5" id="detailDate"></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                                    <span class="text-lg">👥</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-medium t" data-en="Est. Attendance" data-zh="預估總人潮">Est. Attendance</p>
+                                        <p class="text-sm font-semibold text-slate-800 mt-0.5" id="detailAttendance"></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                                    <span class="text-lg">🏢</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-medium t" data-en="Organizer" data-zh="主辦/協辦單位">Organizer</p>
+                                        <p class="text-sm font-semibold text-slate-800 mt-0.5" id="detailOrganizer"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-100 pt-4">
+                            <p class="text-sm text-slate-600 leading-relaxed" id="detailDescription"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col">
+                    <div class="mb-4">
+                        <h2 class="text-base font-bold text-slate-800 t" data-en="📊 Monthly Attendance Forecast" data-zh="📊 預估動員人數趨勢 (按月)">📊 Monthly Attendance Forecast</h2>
+                        <p class="text-xs text-slate-500 mt-1 t"
+                           data-en="Expected visitor volume per month under current filters — useful for evaluating traffic, logistics, and commercial opportunity."
+                           data-zh="呈現當前篩選條件下，每個月的預期人潮流量，協助評估周邊交通與商機。">
+                           Expected visitor volume per month under current filters — useful for evaluating traffic, logistics, and commercial opportunity.
+                        </p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-center py-6 mt-10">
+        <p class="text-xs t"
+           data-en="© 2026 Taipei Dome Event Dashboard · Data represents estimated and confirmed schedules, not official final announcements."
+           data-zh="© 2026 臺北大巨蛋資料洞察儀表板 | 本資料為依據歷年慣例與公開資訊之預估排程，非官方最終公告。">
+           © 2026 Taipei Dome Event Dashboard · Data represents estimated and confirmed schedules, not official final announcements.
+        </p>
+    </footer>
+
+<script>
+// ─── i18n ───────────────────────────────────────────────────────────────────
+let currentLang = 'en';
+
+function toggleLang() {
+    currentLang = currentLang === 'en' ? 'zh' : 'en';
+    document.body.classList.toggle('lang-zh', currentLang === 'zh');
+    document.getElementById('langLabel').textContent = currentLang === 'en' ? '中文' : 'English';
+    document.documentElement.lang = currentLang === 'en' ? 'en' : 'zh-TW';
+    applyTranslations();
+    // Re-render timeline and detail with new lang
+    const filteredData = getFilteredData();
+    filteredData.sort((a, b) => new Date(a.date) - new Date(b.date));
+    renderTimeline(filteredData);
+    if (state.selectedEventId) selectEvent(state.selectedEventId, true);
+    updateKPIs(filteredData);
+}
+
+function applyTranslations() {
+    document.querySelectorAll('.t').forEach(el => {
+        const val = el.getAttribute('data-' + currentLang);
+        if (val) el.innerHTML = val;
+    });
+    // Update select options
+    document.querySelectorAll('select option.t').forEach(el => {
+        const val = el.getAttribute('data-' + currentLang);
+        if (val) el.textContent = val;
+    });
+}
+
+// ─── Data ────────────────────────────────────────────────────────────────────
+const eventData = [
+    {
+        id: 1, date: "2026-04-04", endDate: "2026-04-05", type: "Sports",
+        title_en: "2026 CPBL Opening Series", title_zh: "2026 CPBL 中華職棒開幕戰週",
+        organizer_en: "Chinese Professional Baseball League (CPBL)", organizer_zh: "中華職業棒球大聯盟 (CPBL)",
+        expectedAttendance: 70000, status_en: "Scheduled", status_zh: "排定",
+        desc_en: "Opening weekend of the 37th CPBL season. The defending Taiwan Series champion will host at Taipei Dome for two consecutive days, with a near-capacity crowd expected.",
+        desc_zh: "中華職棒37年開幕戰，預計由去年台灣大賽冠軍隊伍擔任主場，連續兩天於大巨蛋舉行，預計將吸引滿場球迷。"
+    },
+    {
+        id: 2, date: "2026-06-12", endDate: "2026-06-14", type: "Sports",
+        title_en: "CPBL Classic Rivalry: Dragons vs. Brothers", title_zh: "CPBL 傳統好戲：龍象大戰",
+        organizer_en: "Wei Chuan Dragons / CTBC Brothers", organizer_zh: "味全龍 / 中信兄弟球團",
+        expectedAttendance: 85000, status_en: "Scheduled", status_zh: "排定",
+        desc_en: "A high-profile weekend three-game series between the league's most storied rivals, expected to drive significant foot traffic to the surrounding area.",
+        desc_zh: "例行賽高人氣對戰組合，週末三連戰安排於大巨蛋，預期帶動周邊龐大消費人潮。"
+    },
+    {
+        id: 3, date: "2026-07-18", endDate: "2026-07-19", type: "Sports",
+        title_en: "2026 CPBL All-Star Weekend", title_zh: "2026 CPBL 中華職棒明星對抗賽",
+        organizer_en: "Chinese Professional Baseball League (CPBL)", organizer_zh: "中華職業棒球大聯盟 (CPBL)",
+        expectedAttendance: 65000, status_en: "Scheduled", status_zh: "排定",
+        desc_en: "Annual baseball festival featuring the Home Run Derby and All-Star Game — the most festive sports event of the summer season.",
+        desc_zh: "年度棒球嘉年華，包含全壘打大賽與明星對抗賽，為暑假期間最具指標性的體育盛事。"
+    },
+    {
+        id: 4, date: "2026-08-15", endDate: "2026-08-16", type: "Concert",
+        title_en: "Mandopop Superstar Summer Tour", title_zh: "華語流行天王 盛夏巡迴演唱會",
+        organizer_en: "Super Dome / Live Nation", organizer_zh: "超級圓頂 / Live Nation",
+        expectedAttendance: 90000, status_en: "In Negotiation", status_zh: "洽談中",
+        desc_en: "The biggest ticketed concert of the summer season, with two planned shows that would push Taipei Dome near its 45,000-person capacity per night.",
+        desc_zh: "暑期最大型售票演唱會，預計連開兩場，將挑戰大巨蛋單場四萬五千人滿載測試。"
+    },
+    {
+        id: 5, date: "2026-10-31", endDate: "2026-11-04", type: "Sports",
+        title_en: "2026 CPBL Taiwan Series", title_zh: "2026 CPBL 台灣大賽 (Taiwan Series)",
+        organizer_en: "Chinese Professional Baseball League (CPBL)", organizer_zh: "中華職業棒球大聯盟 (CPBL)",
+        expectedAttendance: 120000, status_en: "Hold Reserved", status_zh: "保留檔期",
+        desc_en: "The annual championship series, with Taipei Dome holding priority dates. At least three home games are projected, making this the highest-attendance sports event of the year.",
+        desc_zh: "年度總冠軍賽，大巨蛋作為優先保留場地，預估至少進行三場主場賽事。"
+    },
+    {
+        id: 6, date: "2026-12-25", endDate: "2026-12-27", type: "Concert",
+        title_en: "2026 Christmas Rock Concert", title_zh: "2026 聖誕搖滾演唱會",
+        organizer_en: "B'in Music", organizer_zh: "相信音樂",
+        expectedAttendance: 110000, status_en: "Scheduled", status_zh: "排定",
+        desc_en: "Three-night year-end rock concert combining Christmas celebrations with a marquee headliner, becoming an emerging annual tradition at the dome.",
+        desc_zh: "指標性樂團年末大型演唱會，結合聖誕節慶氛圍，連續三天開唱。"
+    },
+    {
+        id: 7, date: "2027-03-05", endDate: "2027-03-09", type: "Sports",
+        title_en: "2027 WBC Asia Qualifier (Bid)", title_zh: "2027 世界棒球經典賽 (WBC) 亞洲區預賽",
+        organizer_en: "WBSC / CTBA", organizer_zh: "WBSC / 悍創運動行銷",
+        expectedAttendance: 150000, status_en: "Bid Submitted", status_zh: "爭取中",
+        desc_en: "The highest-profile international baseball tournament in the world. Taiwan has submitted a bid for the Asia qualifier; Taipei Dome is the only eligible covered venue in the country.",
+        desc_zh: "全球最高層級棒球國際賽，台灣極力爭取預賽主辦權，大巨蛋為唯一合格之室內一級場地。"
+    },
+    {
+        id: 8, date: "2027-04-03", endDate: "2027-04-04", type: "Sports",
+        title_en: "2027 CPBL Opening Series", title_zh: "2027 CPBL 中華職棒開幕戰週",
+        organizer_en: "Chinese Professional Baseball League (CPBL)", organizer_zh: "中華職業棒球大聯盟 (CPBL)",
+        expectedAttendance: 70000, status_en: "Scheduled", status_zh: "排定",
+        desc_en: "Annual season opener, with Taipei Dome now firmly established as CPBL's preferred venue for opening weekend festivities.",
+        desc_zh: "年度例行賽揭幕，大巨蛋已成為近年CPBL開幕戰的首選地標。"
+    },
+    {
+        id: 9, date: "2027-05-20", endDate: "2027-05-23", type: "Exhibition",
+        title_en: "Taipei International Sporting Goods & Outdoor Expo", title_zh: "台北國際體育用品暨戶外休閒展",
+        organizer_en: "Taiwan External Trade Development Council (TAITRA)", organizer_zh: "中華民國對外貿易發展協會 (TAITRA)",
+        expectedAttendance: 80000, status_en: "Scheduled", status_zh: "排定",
+        desc_en: "First major consumer expo to use Taipei Dome's floor space, showcasing large-format outdoor and camping equipment over four days.",
+        desc_zh: "首次將大型消費性展覽移師大巨蛋，利用廣大室內空間展示大型戶外與露營設備。"
+    },
+    {
+        id: 10, date: "2027-07-24", endDate: "2027-07-25", type: "Sports",
+        title_en: "2027 CPBL All-Star Weekend", title_zh: "2027 CPBL 中華職棒明星對抗賽",
+        organizer_en: "Chinese Professional Baseball League (CPBL)", organizer_zh: "中華職業棒球大聯盟 (CPBL)",
+        expectedAttendance: 65000, status_en: "Hold Reserved", status_zh: "保留檔期",
+        desc_en: "Continuing the summer baseball tradition at Taipei Dome, offering fans the best-equipped indoor ballpark experience in Taiwan.",
+        desc_zh: "夏季棒球盛宴，持續於大巨蛋舉辦，提供球迷最舒適的觀賽體驗。"
+    },
+    {
+        id: 11, date: "2027-09-10", endDate: "2027-09-12", type: "Concert",
+        title_en: "International Pop Star Asia Tour – Taipei", title_zh: "國際巨星 亞洲巡迴台北站",
+        organizer_en: "Live Nation Taiwan", organizer_zh: "Live Nation Taiwan",
+        expectedAttendance: 135000, status_en: "In Negotiation", status_zh: "洽談中",
+        desc_en: "Three-night run by a Western pop headliner on a global world tour, with heavy international fan travel to Taipei anticipated.",
+        desc_zh: "西洋流行天后世界巡迴演唱會，預計連開三場，預計將吸引大量海外歌迷來台。"
+    },
+    {
+        id: 12, date: "2027-11-18", endDate: "2027-11-28", type: "Sports",
+        title_en: "32nd Asian Baseball Championship", title_zh: "第32屆 亞洲棒球錦標賽 (亞錦賽)",
+        organizer_en: "Baseball Federation of Asia (BFA) / CTBA", organizer_zh: "亞洲棒球總會 (BFA) / 中華棒協",
+        expectedAttendance: 100000, status_en: "Scheduled", status_zh: "排定",
+        desc_en: "Taiwan's second hosting of the Asian Championship following 2023. Taipei Dome will serve as the primary venue for the opening ceremony and final.",
+        desc_zh: "繼2023年後再度舉辦亞錦賽，大巨蛋將作為開幕戰及決賽的主要場地。"
+    },
+    {
+        id: 13, date: "2027-12-31", endDate: "2027-12-31", type: "Concert",
+        title_en: "New Year's Eve Special – Taipei Dome", title_zh: "2028 台北最High新年城 - 巨蛋特別場",
+        organizer_en: "Taipei City Government / B'in Creative", organizer_zh: "臺北市政府 / 必應創造",
+        expectedAttendance: 45000, status_en: "Under Review", status_zh: "評估中",
+        desc_en: "A first-of-its-kind dual-venue New Year's Eve event linking Taipei Dome with the City Hall Plaza stage for a connected countdown celebration.",
+        desc_zh: "配合市府跨年活動，首度嘗試市府廣場與大巨蛋雙主場連線跨年晚會。"
+    }
+];
+
+// ─── State ───────────────────────────────────────────────────────────────────
+let state = { year: 'all', type: 'all', selectedEventId: null, chartInstance: null };
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+const L = (event, field) => event[`${field}_${currentLang}`] || event[`${field}_en`];
+
+const formatDate = (dateStr) => {
+    const d = new Date(dateStr + 'T00:00:00');
+    if (currentLang === 'zh') {
+        return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+    }
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+const getIconForType = t => ({ Sports: '⚾', Concert: '🎵', Exhibition: '🎪' }[t] || '📅');
+
+const getBadgeClass = t => ({
+    Sports: 'badge-sports', Concert: 'badge-concert', Exhibition: 'badge-exhibition'
+}[t] || 'bg-slate-100 text-slate-600');
+
+const getTypeName = t => {
+    const map = {
+        Sports:     { en: 'Sports',    zh: '體育賽事' },
+        Concert:    { en: 'Concert',   zh: '演唱會' },
+        Exhibition: { en: 'Exhibition',zh: '展覽活動' }
+    };
+    return (map[t] || { en: t, zh: t })[currentLang];
+};
+
+const getFilteredData = () => eventData.filter(e => {
+    const yearMatch = state.year === 'all' || e.date.startsWith(state.year);
+    const typeMatch = state.type === 'all' || e.type === state.type;
+    return yearMatch && typeMatch;
+});
+
+// ─── KPIs ────────────────────────────────────────────────────────────────────
+const updateKPIs = (data) => {
+    document.getElementById('kpiTotalEvents').textContent = data.length;
+    const total = data.reduce((s, e) => s + e.expectedAttendance, 0);
+    document.getElementById('kpiTotalAttendance').textContent = total.toLocaleString();
+    if (!data.length) {
+        document.getElementById('kpiTopType').textContent = currentLang === 'en' ? 'N/A' : '無資料';
+    } else {
+        const counts = data.reduce((a, e) => { a[e.type] = (a[e.type]||0)+1; return a; }, {});
+        const top = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        document.getElementById('kpiTopType').textContent = `${getIconForType(top)} ${getTypeName(top)}`;
+    }
+};
+
+// ─── Timeline ────────────────────────────────────────────────────────────────
+const renderTimeline = (data) => {
+    const container = document.getElementById('timelineContainer');
+    container.innerHTML = '';
+    if (!data.length) {
+        container.innerHTML = `<div class="p-6 text-center text-slate-400 text-sm">${currentLang === 'en' ? 'No events match the current filters.' : '無符合條件的活動'}</div>`;
+        return;
+    }
+    data.forEach(event => {
+        const item = document.createElement('div');
+        const isActive = state.selectedEventId === event.id ? 'active' : '';
+        item.className = `timeline-item p-4 border-b border-slate-100 cursor-pointer flex gap-4 items-start ${isActive}`;
+        item.onclick = () => selectEvent(event.id);
+
+        const d = new Date(event.date + 'T00:00:00');
+        const mon = currentLang === 'zh'
+            ? `${d.getMonth()+1}月${d.getDate()}日`
+            : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+        item.innerHTML = `
+            <div class="flex-shrink-0 text-center w-14 pt-0.5">
+                <div class="text-xs text-slate-400 font-bold">${d.getFullYear()}</div>
+                <div class="text-sm font-bold text-slate-800 leading-tight mt-0.5">${mon}</div>
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-xs font-bold px-2 py-0.5 rounded-full ${getBadgeClass(event.type)}">
+                        ${getIconForType(event.type)} ${getTypeName(event.type)}
+                    </span>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm leading-snug mb-1">${L(event, 'title')}</h4>
+                <p class="text-xs text-slate-500">${currentLang === 'en' ? 'Est.' : '預估:'} ${event.expectedAttendance.toLocaleString()} ${currentLang === 'en' ? 'attendees' : '人'}</p>
+            </div>
+        `;
+        container.appendChild(item);
+    });
+};
+
+// ─── Detail Panel ────────────────────────────────────────────────────────────
+const selectEvent = (id, silent = false) => {
+    state.selectedEventId = id;
+    const event = eventData.find(e => e.id === id);
+    if (!silent) renderTimeline(getFilteredData().sort((a,b) => new Date(a.date)-new Date(b.date)));
+
+    document.getElementById('emptyDetail').classList.add('hidden');
+    const ad = document.getElementById('activeDetail');
+    ad.classList.remove('hidden');
+
+    const badge = document.getElementById('detailBadge');
+    badge.className = `px-3 py-1 text-xs font-bold rounded-full ${getBadgeClass(event.type)}`;
+    badge.innerHTML = `${getIconForType(event.type)} ${getTypeName(event.type)}`;
+
+    document.getElementById('detailStatus').textContent = L(event, 'status');
+    document.getElementById('detailTitle').textContent = L(event, 'title');
+
+    const dateStr = event.date === event.endDate
+        ? formatDate(event.date)
+        : `${formatDate(event.date)} – ${formatDate(event.endDate)}`;
+    document.getElementById('detailDate').textContent = dateStr;
+
+    const att = event.expectedAttendance.toLocaleString();
+    document.getElementById('detailAttendance').textContent = currentLang === 'en' ? `${att} people` : `${att} 人次`;
+    document.getElementById('detailOrganizer').textContent = L(event, 'organizer');
+    document.getElementById('detailDescription').textContent = L(event, 'desc');
+};
+
+// ─── Chart ───────────────────────────────────────────────────────────────────
+const renderChart = (data) => {
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    if (state.chartInstance) state.chartInstance.destroy();
+
+    const monthlyData = {};
+    let startYear = state.year === 'all' ? 2026 : parseInt(state.year);
+    let endYear   = state.year === 'all' ? 2027 : parseInt(state.year);
+
+    for (let y = startYear; y <= endYear; y++) {
+        for (let m = 1; m <= 12; m++) {
+            if (y === 2026 && m < 4) continue;
+            const key = `${y}-${String(m).padStart(2,'0')}`;
+            monthlyData[key] = { Sports: 0, Concert: 0, Exhibition: 0 };
+        }
+    }
+
+    data.forEach(event => {
+        const d = new Date(event.date + 'T00:00:00');
+        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        if (monthlyData[key]) monthlyData[key][event.type] += event.expectedAttendance;
+    });
+
+    const labels = Object.keys(monthlyData).map(k => {
+        const [y, m] = k.split('-');
+        if (currentLang === 'zh') return `${y}年${parseInt(m)}月`;
+        const d = new Date(parseInt(y), parseInt(m)-1, 1);
+        return d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+    });
+
+    const keys = Object.keys(monthlyData);
+
+    const fontFamily = currentLang === 'zh' ? "'Noto Sans TC', sans-serif" : "'DM Sans', sans-serif";
+
+    state.chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: currentLang === 'en' ? 'Sports' : '體育賽事',
+                    data: keys.map(k => monthlyData[k].Sports),
+                    backgroundColor: '#0ea5e9', borderRadius: 4
+                },
+                {
+                    label: currentLang === 'en' ? 'Concert' : '演唱會',
+                    data: keys.map(k => monthlyData[k].Concert),
+                    backgroundColor: '#a855f7', borderRadius: 4
+                },
+                {
+                    label: currentLang === 'en' ? 'Exhibition' : '展覽',
+                    data: keys.map(k => monthlyData[k].Exhibition),
+                    backgroundColor: '#f97316', borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'top', labels: { font: { family: fontFamily } } },
+                tooltip: {
+                    callbacks: {
+                        label(context) {
+                            const v = context.parsed.y;
+                            return `${context.dataset.label}: ${v.toLocaleString()} ${currentLang === 'en' ? 'people' : '人'}`;
+                        }
+                    },
+                    titleFont: { family: fontFamily },
+                    bodyFont:  { family: fontFamily }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true, grid: { display: false },
+                    ticks: { font: { family: fontFamily }, maxRotation: 45, minRotation: 45 }
+                },
+                y: {
+                    stacked: true, beginAtZero: true,
+                    grid: { color: '#f1f5f9' },
+                    ticks: {
+                        font: { family: fontFamily },
+                        callback: v => currentLang === 'zh'
+                            ? (v >= 10000 ? (v/10000)+'萬' : v)
+                            : (v >= 1000 ? (v/1000)+'k' : v)
+                    }
+                }
+            }
+        }
+    });
+};
+
+// ─── Main update ─────────────────────────────────────────────────────────────
+const updateApp = () => {
+    const data = getFilteredData().sort((a,b) => new Date(a.date)-new Date(b.date));
+    updateKPIs(data);
+    renderTimeline(data);
+    renderChart(data);
+
+    if (data.length && !state.selectedEventId) {
+        selectEvent(data[0].id);
+    } else if (!data.length) {
+        document.getElementById('emptyDetail').classList.remove('hidden');
+        document.getElementById('activeDetail').classList.add('hidden');
+    }
+};
+
+// ─── Event Listeners ─────────────────────────────────────────────────────────
+document.getElementById('yearFilter').addEventListener('change', e => {
+    state.year = e.target.value;
+    updateApp();
+});
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', e => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        e.currentTarget.classList.add('active');
+        state.type = e.currentTarget.dataset.type;
+        updateApp();
+    });
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', updateApp);
+</script>
+</body>
+</html>
